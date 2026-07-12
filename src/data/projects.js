@@ -406,7 +406,37 @@ function slugify(title) {
     .replace(/(^-|-$)/g, '')
 }
 
-export const mockProjects = RAW.map((p) => {
+// Curated 25-project subset for the catalog — keeps 2-3 per domain so the
+// full catalog fits comfortably in a single dense grid view.
+const CATALOG_TITLES = new Set([
+  'SmartLedger — AI Expense Auditor',
+  'CreditSense — Autonomous Loan Underwriting Agent',
+  'FraudLens — Transaction Anomaly Detection Agent',
+  'CartWhisper — Product Q&A RAG Assistant',
+  'RestockRobot — Autonomous Inventory Replenishment Agent',
+  'ShopMate — 24/7 Customer Support Chatbot',
+  'ClauseClerk — Contract Review RAG Assistant',
+  'CaseFlow — Autonomous Litigation Research Agent',
+  'RouteReader — Shipment Document RAG Assistant',
+  'FleetPilot — Autonomous Route Optimization Agent',
+  'CivicClerk — Government Forms RAG Assistant',
+  '311 Chatbot — Citizen Service Request Assistant',
+  'CampaignCrew — Autonomous Multi-Channel Campaign Agent',
+  'AdVisor — Customer Persona Chat Assistant',
+  'ChartScribe — Clinical Notes RAG Assistant',
+  'CareCrew — Autonomous Patient Intake & Triage Agent',
+  'SymptomChat — Patient Self-Service Assistant',
+  'SyllabusSage — Course Material RAG Assistant',
+  'TutorCrew — Autonomous Personalized Learning Agent',
+  'CampusChat — Admissions FAQ Assistant',
+  'EcoDoc — Sustainability Report RAG Assistant',
+  'GridCrew — Autonomous Energy Grid Balancing Agent',
+  'CarbonCast — Emissions Forecasting Copilot',
+  'ScriptSense — Script Coverage RAG Assistant',
+  'StudioCrew — Autonomous Content Localization Agent',
+])
+
+export const mockProjects = RAW.filter((p) => CATALOG_TITLES.has(p.title)).map((p) => {
   const workflow =
     p.kind === 'rag' ? ragWorkflow(p.corpus)
     : p.kind === 'agent' ? agentWorkflow(p.process)
