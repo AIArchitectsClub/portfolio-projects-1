@@ -4,7 +4,7 @@ import { requireAuth } from '../middleware/requireAuth.js'
 
 const router = Router()
 
-async function attachProjects(applications) {
+export async function attachProjects(applications) {
   if (applications.length === 0) return []
   const ids = applications.map((a) => a.id)
   const { rows } = await pool.query(
@@ -23,7 +23,7 @@ async function attachProjects(applications) {
   return applications.map((a) => ({ ...a, projects: byApplication.get(a.id) ?? [] }))
 }
 
-function toApplicationJson(row) {
+export function toApplicationJson(row) {
   return {
     id: row.id,
     name: row.student_name,
@@ -31,6 +31,7 @@ function toApplicationJson(row) {
     phone: row.phone,
     school: row.school,
     grade: row.grade,
+    status: row.status,
     submittedAt: row.created_at,
   }
 }

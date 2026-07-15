@@ -5,7 +5,9 @@ async function request(path, options) {
   })
   if (!res.ok) {
     const body = await res.json().catch(() => ({}))
-    throw new Error(body.error || `Request failed with status ${res.status}`)
+    const error = new Error(body.error || `Request failed with status ${res.status}`)
+    error.status = res.status
+    throw error
   }
   return res.status === 204 ? null : res.json()
 }
@@ -24,4 +26,20 @@ export function fetchApplications() {
 
 export function submitApplication(payload) {
   return request('/applications', { method: 'POST', body: JSON.stringify(payload) })
+}
+
+export function adminLogin(username, password) {
+  return request('/admin/login', { method: 'POST', body: JSON.stringify({ username, password }) })
+}
+
+export function adminLogout() {
+  return request('/admin/logout', { method: 'POST' })
+}
+
+export function fetchAdminApplications() {
+  return request('/admin/applications')
+}
+
+export function updateApplicationStatus(id, status) {
+  return request(`/admin/applications/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
 }

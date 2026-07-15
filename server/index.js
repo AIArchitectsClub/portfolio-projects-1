@@ -6,6 +6,7 @@ import { toNodeHandler } from 'better-auth/node'
 import { auth } from './auth.js'
 import projectsRouter from './routes/projects.js'
 import applicationsRouter from './routes/applications.js'
+import adminRouter from './routes/admin.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.join(__dirname, '..', 'dist')
@@ -20,6 +21,7 @@ app.use(express.json())
 
 app.use('/api/projects', projectsRouter)
 app.use('/api/applications', applicationsRouter)
+app.use('/api/admin', adminRouter)
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }))
 
 app.use(express.static(distDir))
