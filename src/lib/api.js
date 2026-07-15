@@ -43,3 +43,7 @@ export function fetchAdminApplications() {
 export function updateApplicationStatus(id, status) {
   return request(`/admin/applications/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) })
 }
+
+export function deleteApplication(id) {
+  return request(`/admin/applications/${id}`, { method: 'DELETE' })
+}

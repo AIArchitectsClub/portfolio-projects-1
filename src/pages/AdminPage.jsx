@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { adminLogout, fetchAdminApplications, updateApplicationStatus } from '../lib/api'
+import { adminLogout, deleteApplication, fetchAdminApplications, updateApplicationStatus } from '../lib/api'
 
 const STATUSES = ['New', 'Reviewed', 'Enrolled', 'Rejected']
 
@@ -10,6 +10,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [updatingId, setUpdatingId] = useState(null)
+  const [deletingId, setDeletingId] = useState(null)
   const [statusFilter, setStatusFilter] = useState('')
 
   const load = useCallback(() => {
@@ -46,6 +47,20 @@ export default function AdminPage() {
       setError(err.message)
     } finally {
       setUpdatingId(null)
+    }
+  }
+
+  async function handleDelete(id, name) {
+    if (!window.confirm(`Delete ${name}'s submission? This cannot be undone.`)) return
+    setDeletingId(id)
+    setError(null)
+    try {
+      await deleteApplication(id)
+      setApplications((prev) => prev.filter((a) => a.id !== id))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -105,6 +120,7 @@ export default function AdminPage() {
                 <th>Projects</th>
                 <th>Submitted</th>
                 <th>Status</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -142,6 +158,17 @@ export default function AdminPage() {
                         </option>
                       ))}
                     </select>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="admin-delete-btn"
+                      disabled={deletingId === app.id}
+                      onClick={() => handleDelete(app.id, app.name)}
+                      aria-label={`Delete ${app.name}'s submission`}
+                    >
+                      {deletingId === app.id ? '…' : '🗑'}
+                    </button>
                   </td>
                 </tr>
               ))}

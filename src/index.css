@@ -117,6 +117,18 @@ main {
   font-size: 14px;
 }
 
+.navbar-admin-link {
+  font-size: 12px;
+  color: var(--text) !important;
+  opacity: 0.55;
+  border-bottom: none !important;
+  margin-left: 4px;
+}
+
+.navbar-admin-link:hover {
+  opacity: 1;
+}
+
 .bucket-badge {
   background: var(--accent);
   color: white;
@@ -1005,6 +1017,27 @@ main {
   background: #fee2e2;
   color: var(--danger);
   border-color: transparent;
+}
+
+.admin-delete-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.admin-delete-btn:hover {
+  background: #fee2e2;
+  border-color: var(--danger);
+}
+
+.admin-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 @media (max-width: 800px) {

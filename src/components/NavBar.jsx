@@ -46,6 +46,9 @@ export default function NavBar() {
             </NavLink>
           </>
         )}
+        <NavLink to="/admin" className="navbar-admin-link">
+          Admin
+        </NavLink>
       </nav>
     </header>
   )
